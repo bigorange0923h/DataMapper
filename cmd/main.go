@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	conf, err := config.LoadMapperConfig("C:\\workspace\\GolangProjects\\DataMapper\\config\\mapper_config_template.json")
+	conf, err := config.LoadMapperConfig("config/mapper_config_template.json")
 	if err != nil {
 		fmt.Errorf("报错了")
 	}
