@@ -1,0 +1,8 @@
+{
+  "mappings": {
+    "csv_field1": "api_param1",
+    "csv_field2": "api_param2"
+  },
+  "filePath": "C:\\Users\\alvhua\\Documents\\数据处理\\Global_2023-07-22_Customer_GPOS_01_00.csv",
+  "fileType": "csv"
+}
