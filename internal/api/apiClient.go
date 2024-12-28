@@ -56,6 +56,7 @@ func (r *Request) Do() {
 
 }
 
+// buildGetUrl 构建GET请求的URL
 func buildGetUrl(url string, params map[string]string) string {
 	if len(params) == 0 {
 		return url
