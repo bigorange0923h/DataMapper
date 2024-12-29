@@ -1,10 +1,8 @@
 package main
 
-import (
-	"DataMapper/internal/api"
-)
+import _import "DataMapper/internal/import"
 
 func main() {
-	request := api.Request{Url: "http://localhost:8080/post", Params: map[string]string{"id": "12345"}, Method: api.POST, Body: "{\"test\":\"123\"}"}
-	request.Do()
+	var importer = _import.CSVImporter{}
+	importer.Importer("config/mapper_config_template.json")
 }

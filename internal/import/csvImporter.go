@@ -1,7 +1,10 @@
 package _import
 
 import (
+	"DataMapper/config"
+	"DataMapper/internal/api"
 	"encoding/csv"
+	"encoding/json"
 	"fmt"
 	"io"
 	"os"
@@ -11,17 +14,23 @@ import (
 type CSVImporter struct {
 }
 
-func (c CSVImporter) Importer(filePath string) ([]map[string]string, error) {
-	file, err := os.Open(filePath)
+func (c CSVImporter) Importer(configName string) ([]map[string]string, error) {
+	config, err := config.LoadMapperConfig(configName)
+	if err != nil {
+		//todo 获取配置失败日志处理
+		return nil, err
+	}
+	file, err := os.Open(config.FilePath)
 	if err != nil {
 		return nil, err
 	}
 	defer file.Close()
 	reader := csv.NewReader(file)
-	reader.Comma = '|'
+	// todo 这里未来要处理默认分隔符
+	reader.Comma = rune(config.SplitCharacter[0])
 	// 获取首行作为表头
 	headers, err := reader.Read()
-	var data []map[string]string
+	//var data map[string]string
 	for {
 		record, err := reader.Read()
 		if err == io.EOF {
@@ -34,9 +43,13 @@ func (c CSVImporter) Importer(filePath string) ([]map[string]string, error) {
 		fmt.Println(record)
 		row := make(map[string]string)
 		for i, value := range record {
-			row[headers[i]] = value
+			row[config.Mappings[headers[i]]] = value
 		}
-		data = append(data, row)
+		fmt.Println(row)
+		//data = append(data, row)
+		json, _ := json.Marshal(row)
+		request := api.Request{config.RequestUrl, nil, nil, config.RequestType, string(json)}
+		request.Do()
 	}
 	return nil, nil
 }

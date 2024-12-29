@@ -7,9 +7,12 @@ import (
 )
 
 type MapperConfigModel struct {
-	Mappings  map[string]string `json:"mappings"`
-	FilePaths string            `json:"filePaths"`
-	FileType  string            `json:"fileType"`
+	Mappings       map[string]string `json:"mappings"`
+	FilePath       string            `json:"filePath"`
+	FileType       string            `json:"fileType"`
+	SplitCharacter string            `json:"splitCharacter"`
+	RequestUrl     string            `json:"requestUrl"`
+	RequestType    string            `json:"requestType"`
 }
 
 // LoadMapperConfig 加载映射配置
