@@ -3,3 +3,5 @@ node_modules
 frontend/dist
 /build/
 /frontend/dist/
+/.idea/vcs.xml
+/.idea/workspace.xml
