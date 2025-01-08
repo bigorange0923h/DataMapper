@@ -6,3 +6,4 @@ frontend/dist
 /.idea/vcs.xml
 /.idea/workspace.xml
 /go.sum
+/.idea/DataMapper.iml
