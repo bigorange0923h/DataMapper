@@ -73,9 +73,8 @@
                 </a-select>
               </template>
             </a-input>
-            <a-button type="primary">导入</a-button>
+            <a-button type="primary" @click="loadMappingConfig">开始</a-button>
           </a-space>
-          <a-divider />
           <a-space>
             <RequestParamMapper/>
           </a-space>
@@ -96,6 +95,9 @@ import RequestParamMapper from "./components/RequestParamMapper.vue";
 const collapsed = ref(false);
 const selectedKeys = ref(['1']);
 const apiType = ref('GET')
+const loadMappingConfig = ()=>{
+
+}
 </script>
 <style scoped>
 .logo {

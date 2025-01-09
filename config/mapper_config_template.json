@@ -1,9 +1,18 @@
 {
-  "mappings": {
-    "tmp_name": "name",
-    "tmp_age": "age",
-    "tmp_sex": "sex"
-  },
+  "mappings": [
+    {
+      "sourceName": "name",
+      "sourceType": "string",
+      "targetName": "name",
+      "targetType": "string"
+    },
+    {
+      "sourceName": "age",
+      "sourceType": "integer",
+      "targetName": "age",
+      "targetType": "integer"
+    }
+  ],
   "splitCharacter": ",",
   "filePath": "test.csv",
   "requestType": "POST",

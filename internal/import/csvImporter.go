@@ -42,8 +42,9 @@ func (c CSVImporter) Importer(configName string) ([]map[string]string, error) {
 		}
 		fmt.Println(record)
 		row := make(map[string]string)
+		mappings := config.GetMappings()
 		for i, value := range record {
-			row[config.Mappings[headers[i]]] = value
+			row[mappings[headers[i]]] = value
 		}
 		fmt.Println(row)
 		//data = append(data, row)
