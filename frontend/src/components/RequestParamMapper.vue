@@ -1,5 +1,6 @@
 <script setup>
 import {LoadMappingConfig, SelectExcelFile} from '../../wailsjs/go/main/App'
+import {ref} from "vue";
 
 const columns = [
   {
@@ -27,16 +28,19 @@ const columns = [
     key: 'action',
   },
 ];
-let data = [];
+let data = ref([]);
 let filePath ="";
 
 async function selectFile() {
+
   filePath = await SelectExcelFile();
   // todo 基于文件路径提前获取对应文件头,并且加载配置表格
   if(filePath) {
-    LoadMappingConfig(filePath).then(result=>{
-      console.log(result)
-      data = result
+    console.log("data:"+data);
+    // todo 没有实时根据 返回加载数据
+   LoadMappingConfig("csv",filePath).then(result=>{
+       data.value = result
+      console.log("data:"+data);
     })
   }
 

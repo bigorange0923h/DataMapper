@@ -6,8 +6,8 @@ export function Greet(arg1) {
   return window['go']['main']['App']['Greet'](arg1);
 }
 
-export function LoadMappingConfig(arg1) {
-  return window['go']['main']['App']['LoadMappingConfig'](arg1);
+export function LoadMappingConfig(arg1, arg2) {
+  return window['go']['main']['App']['LoadMappingConfig'](arg1, arg2);
 }
 
 export function SelectExcelFile() {
