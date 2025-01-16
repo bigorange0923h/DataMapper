@@ -7,3 +7,5 @@ frontend/dist
 /.idea/workspace.xml
 /go.sum
 /.idea/DataMapper.iml
+/.idea/.gitignore
+/.idea/modules.xml

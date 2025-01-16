@@ -45,7 +45,7 @@
       </a-row>
       <a-layout-header class="header top">
         <a-menu
-            v-model:selectedKeys="selectedKeys1"
+            v-model:selectedKeys="selectedKeys"
             theme="dark"
             mode="horizontal"
             :style="{ lineHeight: '64px' }"
