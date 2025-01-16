@@ -60,10 +60,11 @@ async function selectFile() {
 }
 
 const count = computed(() => dataSource.value.length + 1);
+// 新增行
 const handleAdd = () => {
   const newData = {
     id: `${count.value}`,
-    sourceName: "name",
+    sourceName: null,
     sourceType: "string",
     targetName: null,
     targetType: "string",
@@ -76,25 +77,26 @@ const handleAdd = () => {
 const editingKey = ref(null);
 const editingValue = ref("");
 
+// 判断当前单元格是否是正在编辑的状态
 const isEditing = (id, dataIndex) => {
-  // 判断当前单元格是否是正在编辑的状态
   return editingKey.value === `${id}-${dataIndex}`;
 };
 
+// 设置当前单元格为编辑状态，并保存初始值
 const edit = (id, dataIndex, value) => {
-  // 设置当前单元格为编辑状态，并保存初始值
   editingKey.value = `${id}-${dataIndex}`;
   editingValue.value = value;
 };
-
+// 保存修改后的值并退出编辑状态
 const save = (id, dataIndex) => {
-  // 保存修改后的值并退出编辑状态
   const record = dataSource.value.find(item => item.id === id);
   if (record) {
     record[dataIndex] = editingValue.value;
   }
   editingKey.value = null; // 清空编辑状态
 };
+
+// 删除对应行
 const onDelete = id => {
   dataSource.value = dataSource.value.filter(item => item.id !== id);
 };
@@ -130,19 +132,19 @@ const onDelete = id => {
           </a-select>
         </template>
       </div>
-     <div v-else-if="column.inputType === 'operate'">
-       <a-popconfirm
-           v-if="dataSource.length"
-           title="确认删除?"
-           @confirm="onDelete(record.id)">
-         <DeleteOutlined />
-       </a-popconfirm>
-     </div>
+      <div v-else-if="column.inputType === 'operate'">
+        <a-popconfirm
+            v-if="dataSource.length"
+            title="确认删除?"
+            @confirm="onDelete(record.id)">
+          <DeleteOutlined/>
+        </a-popconfirm>
+      </div>
       <div
           v-else
           @click="edit(record.id, column.dataIndex, record[column.dataIndex])"
           style="cursor: pointer;">
-        {{ record[column.dataIndex] || '-'}}
+        {{ record[column.dataIndex] || '-' }}
       </div>
     </template>
   </a-table>
