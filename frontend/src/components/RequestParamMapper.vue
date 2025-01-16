@@ -33,10 +33,11 @@ const columns = [
     inputType: "select"
   },
   {
-    title: 'Action',
-    dataIndex: 'action',
-    key: 'action',
-    editable: true
+    title: '操作',
+    dataIndex: 'operate',
+    editable: true,
+    inputType: "operate"
+
   },
 ];
 let dataSource = ref([]);
@@ -59,10 +60,9 @@ async function selectFile() {
 }
 
 const count = computed(() => dataSource.value.length + 1);
-
 const handleAdd = () => {
   const newData = {
-    key: `${count.value}`,
+    id: `${count.value}`,
     sourceName: "name",
     sourceType: "string",
     targetName: null,
@@ -71,35 +71,33 @@ const handleAdd = () => {
   dataSource.value.push(newData);
 };
 
+
 // 当前正在编辑的单元格
-const editingCell = ref({key: null, dataIndex: null});
+const editingKey = ref(null);
+const editingValue = ref("");
 
-// 鼠标悬浮时设置为编辑模式
-const handleMouseOver = (key, dataIndex) => {
-  editingCell.value = {key, dataIndex};
+const isEditing = (id, dataIndex) => {
+  // 判断当前单元格是否是正在编辑的状态
+  return editingKey.value === `${id}-${dataIndex}`;
 };
 
-// 鼠标离开时清除编辑状态
-const handleMouseLeave = (key, dataIndex) => {
-  if (editingCell.value.key === key && editingCell.value.dataIndex === dataIndex) {
-    editingCell.value = {key: null, dataIndex: null};
+const edit = (id, dataIndex, value) => {
+  // 设置当前单元格为编辑状态，并保存初始值
+  editingKey.value = `${id}-${dataIndex}`;
+  editingValue.value = value;
+};
+
+const save = (id, dataIndex) => {
+  // 保存修改后的值并退出编辑状态
+  const record = dataSource.value.find(item => item.id === id);
+  if (record) {
+    record[dataIndex] = editingValue.value;
   }
+  editingKey.value = null; // 清空编辑状态
 };
-
-// 失去焦点或回车后退出编辑
-const handleBlur = (key, dataIndex) => {
-  console.log("进入编辑")
-  if (editingCell.value.key === key && editingCell.value.dataIndex === dataIndex) {
-    editingCell.value = {key: null, dataIndex: null};
-  }
+const onDelete = id => {
+  dataSource.value = dataSource.value.filter(item => item.id !== id);
 };
-// 选中某个选项后退出编辑状态
-const handleChange = (key, dataIndex) => {
-  editingCell.value = {key: null, dataIndex: null};
-};
-// 判断当前单元格是否正在编辑
-const isEditing = (key, dataIndex) =>
-    editingCell.value.key === key && editingCell.value.dataIndex === dataIndex;
 </script>
 
 <template>
@@ -110,38 +108,42 @@ const isEditing = (key, dataIndex) =>
   </a-space>
 
   <a-divider/>
-  <a-table :columns="columns" :data-source="dataSource" :pagination="false" :scroll="{  y: 300 }">
-    <template #bodyCell="{ column, record, index }">
-      <div
-          v-if="column.editable"
-          @mouseover="handleMouseOver(record.key, column.dataIndex)"
-          @mouseleave="handleMouseLeave(record.key, column.dataIndex)"
-      >
-        <template v-if="isEditing(record.key, column.dataIndex)">
-          <template v-if="column.inputType === 'select'">
-            <a-select
-                :options="column.options"
-                v-model:value="record[column.dataIndex]"
-                @change="handleChange(record.key, column.dataIndex)"
-                @blur="handleBlur(record.key, column.dataIndex)"
-                style="width: 100%;"
-            />
-          </template>
-          <template v-else>
-            <a-input
-                v-model:value="record[column.dataIndex]"
-                @blur="handleBlur(record.key, column.dataIndex)"
-                @pressEnter="handleBlur(record.key, column.dataIndex)"
-            />
-          </template>
+  <a-table :columns="columns" :data-source="dataSource" :pagination="false" :scroll="{  y: 300 }" rowKey="id">
+    <template #bodyCell="{ title, record, column, index }">
+      <!-- 判断是否是正在编辑的单元格 -->
+      <div v-if="isEditing(record.id, column.dataIndex)">
+        <template v-if="column.inputType === 'input'">
+          <a-input
+              v-model:value="editingValue"
+              @blur="save(record.id, column.dataIndex)"
+              @pressEnter="save(record.id, column.dataIndex)"
+              style="width: 100%"
+              autofocus
+          />
         </template>
-        <template v-else>
-          {{ record[column.dataIndex] }}
+        <template v-else-if="column.inputType === 'select'">
+          <a-select v-model:value="editingValue" @blur="save(record.id, column.dataIndex)"
+                    @change="save(record.id, column.dataIndex)"
+                    style="width: 100%" autofocus>
+            <a-select-option value="string">string</a-select-option>
+            <a-select-option value="int">int</a-select-option>
+          </a-select>
         </template>
       </div>
-      <template v-else>
-        {{ record[column.dataIndex] }}
-      </template>
+     <div v-else-if="column.inputType === 'operate'">
+       <a-popconfirm
+           v-if="dataSource.length"
+           title="确认删除?"
+           @confirm="onDelete(record.id)">
+         <DeleteOutlined />
+       </a-popconfirm>
+     </div>
+      <div
+          v-else
+          @click="edit(record.id, column.dataIndex, record[column.dataIndex])"
+          style="cursor: pointer;">
+        {{ record[column.dataIndex] || '-'}}
+      </div>
     </template>
   </a-table>
 </template>
