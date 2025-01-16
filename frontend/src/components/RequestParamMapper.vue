@@ -43,6 +43,9 @@ const columns = [
 let dataSource = ref([]);
 
 let filePath = "";
+// 当前正在编辑的单元格
+const editingKey = ref(null);
+const editingValue = ref("");
 
 async function selectFile() {
 
@@ -71,11 +74,6 @@ const handleAdd = () => {
   };
   dataSource.value.push(newData);
 };
-
-
-// 当前正在编辑的单元格
-const editingKey = ref(null);
-const editingValue = ref("");
 
 // 判断当前单元格是否是正在编辑的状态
 const isEditing = (id, dataIndex) => {

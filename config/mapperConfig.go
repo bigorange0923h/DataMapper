@@ -8,6 +8,7 @@ import (
 
 // MappingsModel 字段映射结构体
 type MappingsModel struct {
+	Id         int    `json:"id"`
 	SourceName string `json:"sourceName"`
 	SourceType string `json:"sourceType"`
 	TargetName string `json:"targetName"`

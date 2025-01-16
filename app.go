@@ -59,8 +59,9 @@ func (a *App) LoadMappingConfig(fileType string, filePath string) ([]config.Mapp
 		return nil, err
 	}
 	var mappingsModels []config.MappingsModel
-	for _, filed := range filedList {
+	for i, filed := range filedList {
 		mappingsModel := config.MappingsModel{
+			Id:         i + 1,
 			SourceName: filed,
 		}
 		mappingsModels = append(mappingsModels, mappingsModel)
