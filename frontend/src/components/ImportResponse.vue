@@ -1,73 +1,49 @@
 <script setup>
-const columns = [
-  {
-    title: '原始入参名称',
-    dataIndex: 'sourceName',
-    key: 'sourceName',
+import { onMounted, ref, nextTick } from 'vue';
+const count = 3;
+const fakeDataUrl = `https://randomuser.me/api/?results=${count}&inc=name,gender,email,nat,picture&noinfo`;
+const initLoading = ref(true);
+const data = ref([]);
+const list = ref([]);
+const pagination = {
+  onChange: page => {
+    console.log(page);
   },
-  {
-    title: '原始入参类型',
-    dataIndex: 'sourceType',
-    key: 'sourceType',
-  },
-  {
-    title: '目标参数名称',
-    dataIndex: 'targetName',
-    key: 'targetName',
-  },
-  {
-    title: '目标参数类型',
-    dataIndex: 'targetType',
-    key: 'targetType',
-  },
-  {
-    title: 'Action',
-    key: 'action',
-  },
-];
-const data = [
-  {
-    sourceName: 'name',
-    sourceType: 'string',
-    targetName: 'name',
-    targetType: 'string',
-  },
-  {
-    sourceName: 'age',
-    sourceType: 'integer',
-    targetName: 'age',
-    targetType: 'integer',
-  },
-  {
-    sourceName: 'sex',
-    sourceType: 'integer',
-    targetName: 'sex',
-    targetType: 'integer',
-  },
-  {
-    sourceName: 'nickName',
-    sourceType: 'string',
-    targetName: 'nickName',
-    targetType: 'string',
-  },
-  {
-    sourceName: 'mobile',
-    sourceType: 'string',
-    targetName: 'mobile',
-    targetType: 'string',
-  } ,
-  {
-    sourceName: 'phone1',
-    sourceType: 'string',
-    targetName: 'mobile1',
-    targetType: 'phone1',
-  }
+  pageSize: 3,
+};
+onMounted(() => {
+  initLoading.value = false;
+  fetch(fakeDataUrl)
+      .then(res => res.json())
+      .then(res => {
 
-]
+        data.value = res.results;
+        list.value = res.results;
+      });
+});
 </script>
 
 <template>
-  <a-table :columns="columns" :data-source="data" :pagination="false" :scroll="{  y: 300 }"/>
+  <a-list
+      class="demo-loadmore-list"
+      item-layout="horizontal"
+      :data-source="list"
+      :pagination="pagination"
+  >
+    <template #renderItem="{ item }">
+      <a-list-item>
+        <template #actions>
+          <a key="list-loadmore-more">重新导入</a>
+        </template>
+        <a-skeleton   :loading="!!item.loading" active>
+          <div>行号</div>
+          <a-list-item-meta
+              description="返回提示:xxxx">
+          </a-list-item-meta>
+        </a-skeleton>
+      </a-list-item>
+    </template>
+  </a-list>
 </template>
 
 <style scoped>

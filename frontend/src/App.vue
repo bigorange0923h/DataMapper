@@ -75,9 +75,10 @@
             </a-input>
             <a-button type="primary" @click="loadMappingConfig">开始</a-button>
           </a-space>
-          <a-space>
+          <a-flex :vertical="value === 'vertical'">
             <RequestParamMapper/>
-          </a-space>
+            <ImportResponse/>
+          </a-flex>
         </div>
         <!--入参-->
 
@@ -91,6 +92,7 @@
 <script setup>
 import {ref} from 'vue';
 import RequestParamMapper from "./components/RequestParamMapper.vue";
+import ImportResponse from "./components/ImportResponse.vue";
 
 const collapsed = ref(false);
 const selectedKeys = ref(['1']);

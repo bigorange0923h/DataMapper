@@ -1,5 +1,6 @@
 <script setup>
 import {LoadMappingConfig, SelectExcelFile} from '../../wailsjs/go/main/App'
+import { DeleteOutlined } from '@ant-design/icons-vue';
 import {computed, ref} from "vue";
 
 
