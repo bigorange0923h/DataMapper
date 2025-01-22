@@ -43,19 +43,19 @@ const columns = [
 ];
 let dataSource = ref([]);
 
-let filePath = "";
+const selectFilePath = ref("");
 // 当前正在编辑的单元格
 const editingKey = ref(null);
 const editingValue = ref("");
 
 async function selectFile() {
 
-  filePath = await SelectExcelFile();
+  selectFilePath.value = await SelectExcelFile();
   // todo 基于文件路径提前获取对应文件头,并且加载配置表格
-  if (filePath) {
+  if (selectFilePath.value) {
     console.log("dataSource:" + dataSource);
     // todo 没有实时根据 返回加载数据
-    LoadMappingConfig("csv", filePath).then(result => {
+    LoadMappingConfig("csv", selectFilePath.value).then(result => {
       dataSource.value = result
       console.log("dataSource:" + dataSource);
     })
@@ -99,11 +99,15 @@ const save = (id, dataIndex) => {
 const onDelete = id => {
   dataSource.value = dataSource.value.filter(item => item.id !== id);
 };
+
+defineExpose({
+  selectFilePath
+});
 </script>
 
 <template>
   <a-space style="margin-top: 10px">
-    <p v-if="filePath" style="color: #141414">选择的文件路径: {{ filePath }}</p>
+    <p v-if="selectFilePath" style="color: #141414">选择的文件路径: {{ selectFilePath }}</p>
     <a-button class="editable-add-btn" style="margin-bottom: 8px" @click="handleAdd">Add</a-button>
     <a-button @click="selectFile">选择文件</a-button>
   </a-space>

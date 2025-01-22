@@ -73,10 +73,10 @@
                 </a-select>
               </template>
             </a-input>
-            <a-button type="primary" @click="loadMappingConfig">开始</a-button>
+            <a-button type="primary" @click="importStart">开始导入</a-button>
           </a-space>
           <a-flex :vertical="value === 'vertical'">
-            <RequestParamMapper/>
+            <RequestParamMapper ref="RequestComponent"/>
             <ImportResponse/>
           </a-flex>
         </div>
@@ -94,12 +94,19 @@ import {ref} from 'vue';
 import RequestParamMapper from "./components/RequestParamMapper.vue";
 import ImportResponse from "./components/ImportResponse.vue";
 
+const RequestComponent = ref();
+
 const collapsed = ref(false);
 const selectedKeys = ref(['1']);
 const apiType = ref('GET')
-const loadMappingConfig = ()=>{
 
+// 引用子组件
+const importStart = async () => {
+  console.log(RequestComponent.value.selectFilePath);
+  
 }
+
+
 </script>
 <style scoped>
 .logo {

@@ -69,6 +69,10 @@ func (a *App) LoadMappingConfig(fileType string, filePath string) ([]config.Mapp
 	return mappingsModels, nil
 }
 
+func (a *App) importFile(fileType string, filePath string, mappings []config.MappingsModel) {
+	// todo 导入文件
+}
+
 // SelectExcelFile 选择文件
 func (a *App) SelectExcelFile() string {
 	options := runtime.OpenDialogOptions{
