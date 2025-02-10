@@ -1,6 +1,24 @@
 {
   "configs": {
-
-  }
-
+  },
+  "menus": [
+    {
+      "key": "sub1",
+      "title": "文件夹1",
+      "children": [
+        {
+          "title": "页面 1",
+          "key": "setting:1"
+        },
+        {
+          "title": "页面 2",
+          "key": "setting:2"
+        }
+      ]
+    },
+    {
+      "key": "sub1",
+      "title": "页面3"
+    }
+  ]
 }

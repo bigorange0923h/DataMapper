@@ -2,7 +2,6 @@ package main
 
 import (
 	"embed"
-
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"
 	"github.com/wailsapp/wails/v2/pkg/options/assetserver"
@@ -34,3 +33,9 @@ func main() {
 		println("Error:", err.Error())
 	}
 }
+
+/*
+func main() {
+	app := NewApp()
+	fmt.Print(app.getMenusConfig())
+}*/

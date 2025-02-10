@@ -44,6 +44,11 @@ func getDataImporter(fileType string) (_import.DataImport, error) {
 
 }
 
+// GetMenusData 获取菜单配置
+func (a *App) GetMenusData() []config.MenuItem {
+	return config.GetMenus()
+}
+
 // LoadMappingConfig 加载映射配置
 func (a *App) LoadMappingConfig(fileType string, filePath string) ([]config.MappingsModel, error) {
 	fmt.Println("filePath:" + filePath)

@@ -7,7 +7,7 @@
   "frontend:dev:watcher": "npm run dev",
   "frontend:dev:serverUrl": "auto",
   "author": {
-    "name": "alvin huang",
-    "email": "alvin.huang@acxiom.com"
+    "name": "BigOrange",
+    "email": "574445631@qq.com"
   }
 }

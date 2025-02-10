@@ -69,6 +69,7 @@
 import {ref} from 'vue';
 import RequestParamMapper from "./components/RequestParamMapper.vue";
 import ImportResponse from "./components/ImportResponse.vue";
+import {GetMenusData} from "../wailsjs/go/main/App.js";
 
 const RequestComponent = ref();
 
@@ -98,7 +99,11 @@ const menuItems = ref([
 
 // 引用子组件
 const importStart = async () => {
-  console.log(RequestComponent.value.selectFilePath);
+  console.log("开始导入");
+  console.log(GetMenusData());
+/*  GetMenusData().then(res => {
+    console.log(res)
+  })*/
 
 }
 const onCollapse = (collapseState) => {
